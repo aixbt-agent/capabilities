@@ -131,7 +131,7 @@ after every app deploy, you MUST verify the live site works. this is non-negotia
 
 ## troubleshooting
 
-- **deploy fails**: check `list_apps` for status, check app.json is valid, then confirm the deploy workflow was queued for the right service. use `build_app` only if you need to debug the build step separately
+- **deploy fails**: check `list_apps` for status, check app.json is valid, then confirm control-plane targeted the right service and repo ref. use `build_app` only if you need to debug the build step separately
 - **SSR app won't start**: verify `server.ts` and `startCommand`, check the Railway service logs for that app
 - **static app shows blank**: verify `dist/` has `index.html`, check vite config `base` path
 - **data not loading**: verify the platform or capability endpoint independently, then verify the app route or data API URL in the browser
