@@ -1,0 +1,116 @@
+/*
+ * AIXBT Component Classes
+ *
+ * Optional reusable CSS classes for common patterns.
+ * Publish as @aixbt-agent/components/components.css.
+ *
+ * These complement the inline const C = {...} pattern.
+ * Use classes for repeated structural patterns; use inline styles for one-offs.
+ */
+
+/* --- Panel --- */
+.panel {
+  background: var(--c-surface);
+  border: var(--border-width) solid var(--c-dim);
+  border-radius: var(--radius-md);
+  padding: var(--panel-padding);
+}
+
+/* --- Tags / Badges --- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  color: var(--c-secondary);
+  background: var(--c-dim);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.tag.green  { color: var(--c-green);  background: rgba(0, 186, 124, 0.12); }
+.tag.red    { color: var(--c-red);    background: rgba(244, 33, 46, 0.12); }
+.tag.yellow { color: var(--c-yellow); background: rgba(245, 166, 35, 0.12); }
+.tag.blue   { color: var(--c-blue);   background: rgba(29, 155, 240, 0.12); }
+.tag.purple { color: var(--c-purple); background: rgba(120, 86, 255, 0.12); }
+
+/* --- Pill Buttons --- */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-6);
+  font-size: var(--fs-sm);
+  font-family: var(--font-sans);
+  color: var(--c-secondary);
+  background: transparent;
+  border: var(--border-width) solid var(--c-dim);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 150ms ease-out;
+  min-height: 36px;
+}
+
+.btn-pill:hover {
+  color: var(--c-text);
+  border-color: var(--c-secondary);
+}
+
+.btn-pill.active {
+  color: var(--c-text);
+  background: var(--c-dim);
+  border-color: var(--c-secondary);
+}
+
+/* --- Stat Value --- */
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: var(--fs-xs);
+  color: var(--c-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- Data Table --- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.data-table th {
+  text-align: left;
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--c-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: var(--border-width) solid var(--c-dim);
+}
+
+.data-table td {
+  padding: var(--sp-3) var(--sp-4);
+  color: var(--c-text);
+  border-bottom: var(--border-width) solid rgba(47, 51, 54, 0.5);
+}
+
+.data-table tr:hover td {
+  background: rgba(47, 51, 54, 0.3);
+}
+
+.data-table .mono {
+  font-family: var(--font-mono);
+}
+
+.data-table .green { color: var(--c-green); }
+.data-table .red   { color: var(--c-red); }

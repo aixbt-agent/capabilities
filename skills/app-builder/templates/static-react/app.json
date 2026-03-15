@@ -1,0 +1,8 @@
+{
+  "name": "__APP_NAME__",
+  "description": "__APP_DESCRIPTION__",
+  "type": "static",
+  "serviceSlug": "app-__APP_SUBDOMAIN__",
+  "repository": "aixbt-agent/app-__APP_SUBDOMAIN__",
+  "buildOutput": "dist"
+}

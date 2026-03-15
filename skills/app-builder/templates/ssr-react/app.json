@@ -1,0 +1,10 @@
+{
+  "name": "__APP_NAME__",
+  "description": "__APP_DESCRIPTION__",
+  "type": "ssr",
+  "serviceSlug": "app-__APP_SUBDOMAIN__",
+  "repository": "aixbt-agent/app-__APP_SUBDOMAIN__",
+  "buildOutput": "dist",
+  "startCommand": "tsx server.ts",
+  "port": __APP_PORT__
+}
