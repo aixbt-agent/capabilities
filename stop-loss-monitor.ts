@@ -1,6 +1,6 @@
 // Monitors open positions against stop loss levels and auto-closes breached positions
-import { getQuotes } from '../providers/yahoo-finance.js'
-import { getSpotPrices } from '../providers/coinbase.js'
+import { getQuotes } from './yahoo-finance.js'
+import { getSpotPrices } from './coinbase.js'
 import pg from 'pg'
 
 const SCHEMA = 'sk_portfolio'

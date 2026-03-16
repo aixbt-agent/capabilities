@@ -3,9 +3,9 @@
 // from CNBC (commodities), Yahoo Finance (stocks), and Coinbase (crypto).
 // Usage: tsx tools/fetch-prices.ts '{"stocks":["NVDA","AMD"],"crypto":["BTC-USD"]}'
 
-import { getCommodityQuotes } from '../providers/cnbc.js'
-import { getQuotes } from '../providers/yahoo-finance.js'
-import { getSpotPrices } from '../providers/coinbase.js'
+import { getCommodityQuotes } from './cnbc.js'
+import { getQuotes } from './yahoo-finance.js'
+import { getSpotPrices } from './coinbase.js'
 
 interface PriceConfig {
   commodities?: Record<string, string>  // { gold: '@GC.1', ... } -> cnbc provider
