@@ -24,7 +24,7 @@ interface PriceResult {
   market_cap?: number
 }
 
-async function fetchPrices(config: PriceConfig): Promise<Record<string, PriceResult>> {
+export default async function fetchPrices(config: PriceConfig): Promise<Record<string, PriceResult>> {
   const prices: Record<string, PriceResult> = {}
   const tasks: Promise<void>[] = []
 
@@ -79,30 +79,4 @@ async function fetchPrices(config: PriceConfig): Promise<Record<string, PriceRes
   return prices
 }
 
-async function main() {
-  const input = process.argv[2]
-  if (!input) {
-    console.log(JSON.stringify({ success: false, error: 'Usage: tsx tools/fetch-prices.ts \'{"stocks":["NVDA"]}\'' }))
-    process.exit(1)
-  }
-
-  try {
-    const config: PriceConfig = JSON.parse(input)
-    const prices = await fetchPrices(config)
-
-    console.log(JSON.stringify({
-      success: true,
-      prices,
-      fetched_at: new Date().toISOString(),
-      count: Object.keys(prices).length,
-    }))
-  } catch (error: any) {
-    console.log(JSON.stringify({
-      success: false,
-      error: error.message,
-    }))
-    process.exit(1)
-  }
-}
-
-main()
+export { fetchPrices }

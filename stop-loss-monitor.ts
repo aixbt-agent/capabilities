@@ -17,7 +17,7 @@ interface Position {
   current_price: number | null
 }
 
-async function run() {
+export default async function checkStopLosses() {
   const client = new pg.Client({ connectionString: process.env.DATABASE_URL })
   await client.connect()
 
@@ -107,7 +107,4 @@ async function run() {
   }
 }
 
-run().catch(err => {
-  console.log(JSON.stringify({ success: false, error: err.message }))
-  process.exit(1)
-})
+export { checkStopLosses }
