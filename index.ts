@@ -1,10 +1,9 @@
 // Shared entry point exporting all tool functions and types
-export { getQuotes, type YahooQuote } from './yahoo-finance.js'
-export { getSpotPrices, type CoinbaseSpotPrice } from './coinbase.js'
-export { getCommodityQuotes, type CommodityQuote } from './cnbc.js'
-export { getTrending, getTopCoins, type MarketCoin } from './coingecko.js'
-export { default as fetchPrices } from './fetch-prices.js'
-export { default as checkStopLosses } from './stop-loss-monitor.js'
+export { getQuotes, type YahooQuote } from './providers/yahoo-finance.js'
+export { getSpotPrices, type CoinbaseSpotPrice } from './providers/coinbase.js'
+export { getCommodityQuotes, type CommodityQuote } from './providers/cnbc.js'
+export { getTrending, getTopCoins, type MarketCoin } from './providers/coingecko.js'
+export { default as fetchPrices } from './tools/fetch-prices.js'
 export {
   default as refreshFedLiquidity,
   buildFedLiquiditySnapshotRow,
@@ -13,7 +12,7 @@ export {
   fetchYieldsAndVix,
   type FedLiquidityMarketData,
   type FedLiquiditySnapshotRow,
-} from './refresh-fed-liquidity.js'
+} from './tools/refresh-fed-liquidity.js'
 export {
   default as refreshSurgeList,
   fetchSurgingProjects,
@@ -22,4 +21,4 @@ export {
   toApiProject,
   toSurgeListRow,
   type SurgeProject,
-} from './refresh-surge-list.js'
+} from './tools/refresh-surge-list.js'

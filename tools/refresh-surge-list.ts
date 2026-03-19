@@ -4,7 +4,7 @@
  * use_when: Refreshing shared surge data for cron or app consumers.
  * persistence: tool-managed
  */
-import pg from 'pg';
+import { createToolManagedRunner, type ToolStorage } from '../shared/tool-managed.js';
 
 const BASE = 'https://api.aixbt.tech/v2';
 const API_KEY = process.env.AIXBT_API_KEY || '';
@@ -134,15 +134,39 @@ export interface RefreshSurgeListParams {
   limit?: string | number;
 }
 
-export async function refreshSurgeList(
-  params: RefreshSurgeListParams = {},
-): Promise<{ projectsFetched: number; projectsUpserted: number }> {
-  const limit = Number.parseInt(String(params.limit ?? '10'), 10);
-  const fetchLimit = Number.isFinite(limit) && limit > 0 ? limit : 10;
-  const client = new pg.Client({ connectionString: process.env.DATABASE_URL });
-  await client.connect();
+export interface RefreshSurgeListResult {
+  projectsFetched: number;
+  projectsUpserted: number;
+}
 
-  try {
+export const toolStorage: ToolStorage = {
+  schema: SCHEMA,
+  bootstrapSql: [
+    `CREATE TABLE IF NOT EXISTS ${SCHEMA}.surge_list (
+      id TEXT PRIMARY KEY,
+      name TEXT,
+      description TEXT,
+      x_handle TEXT,
+      momentum_score DOUBLE PRECISION,
+      popularity_score DOUBLE PRECISION,
+      symbol TEXT,
+      price_usd DOUBLE PRECISION,
+      market_cap DOUBLE PRECISION,
+      volume_24h DOUBLE PRECISION,
+      change_24h DOUBLE PRECISION,
+      chains TEXT[],
+      categories TEXT[],
+      first_seen_at TIMESTAMPTZ DEFAULT NOW(),
+      last_seen_at TIMESTAMPTZ DEFAULT NOW()
+    )`,
+  ],
+};
+
+export const refreshSurgeList = createToolManagedRunner<RefreshSurgeListParams, RefreshSurgeListResult>({
+  storage: toolStorage,
+  run: async (client, params = {}) => {
+    const limit = Number.parseInt(String(params.limit ?? '10'), 10);
+    const fetchLimit = Number.isFinite(limit) && limit > 0 ? limit : 10;
     const projects = await fetchSurgingProjects(fetchLimit);
 
     for (const project of projects) {
@@ -193,9 +217,7 @@ export async function refreshSurgeList(
       projectsFetched: projects.length,
       projectsUpserted: projects.length,
     };
-  } finally {
-    await client.end();
-  }
-}
+  },
+});
 
 export default refreshSurgeList;

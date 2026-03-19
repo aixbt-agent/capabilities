@@ -5,9 +5,9 @@
  * persistence: none
  */
 
-import { getCommodityQuotes } from './cnbc.js'
-import { getQuotes } from './yahoo-finance.js'
-import { getSpotPrices } from './coinbase.js'
+import { getCommodityQuotes } from '../providers/cnbc.js'
+import { getQuotes } from '../providers/yahoo-finance.js'
+import { getSpotPrices } from '../providers/coinbase.js'
 
 interface PriceConfig {
   commodities?: Record<string, string>  // { gold: '@GC.1', ... } -> cnbc provider

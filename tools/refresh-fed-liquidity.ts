@@ -4,9 +4,9 @@
  * use_when: Refreshing shared macro regime snapshots on a schedule.
  * persistence: tool-managed
  */
-import pg from 'pg';
-import { getCommodityQuotes } from './cnbc.js';
-import { getQuotes } from './yahoo-finance.js';
+import { getCommodityQuotes } from '../providers/cnbc.js';
+import { getQuotes } from '../providers/yahoo-finance.js';
+import { createToolManagedRunner, type ToolStorage } from '../shared/tool-managed.js';
 
 const SCHEMA = 'sk_fed_liquidity';
 const UA =
@@ -224,15 +224,42 @@ export interface RefreshFedLiquidityParams {
   prune_days?: string | number;
 }
 
-export async function refreshFedLiquidity(
-  params: RefreshFedLiquidityParams = {},
-): Promise<{ fetchedAt: string; insertedSnapshot: number; prunedSnapshots: number; regime: string }> {
-  const pruneDays = Number.parseInt(String(params.prune_days ?? '30'), 10);
-  const retentionDays = Number.isFinite(pruneDays) && pruneDays > 0 ? pruneDays : 30;
-  const client = new pg.Client({ connectionString: process.env.DATABASE_URL });
-  await client.connect();
+export interface RefreshFedLiquidityResult {
+  fetchedAt: string;
+  insertedSnapshot: number;
+  prunedSnapshots: number;
+  regime: string;
+}
 
-  try {
+export const toolStorage: ToolStorage = {
+  schema: SCHEMA,
+  bootstrapSql: [
+    `CREATE TABLE IF NOT EXISTS ${SCHEMA}.snapshots (
+      id SERIAL PRIMARY KEY,
+      t3m DOUBLE PRECISION,
+      t5y DOUBLE PRECISION,
+      t10y DOUBLE PRECISION,
+      t30y DOUBLE PRECISION,
+      vix DOUBLE PRECISION,
+      dxy_uup DOUBLE PRECISION,
+      spread_3m10y DOUBLE PRECISION,
+      spread_5s30s DOUBLE PRECISION,
+      curve_shape TEXT,
+      hyg DOUBLE PRECISION,
+      lqd DOUBLE PRECISION,
+      spy DOUBLE PRECISION,
+      gold DOUBLE PRECISION,
+      regime TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    )`,
+  ],
+};
+
+export const refreshFedLiquidity = createToolManagedRunner<RefreshFedLiquidityParams, RefreshFedLiquidityResult>({
+  storage: toolStorage,
+  run: async (client, params = {}) => {
+    const pruneDays = Number.parseInt(String(params.prune_days ?? '30'), 10);
+    const retentionDays = Number.isFinite(pruneDays) && pruneDays > 0 ? pruneDays : 30;
     const marketData = await fetchFedLiquidityMarketData();
     const snapshot = buildFedLiquiditySnapshotRow(marketData);
 
@@ -273,9 +300,7 @@ export async function refreshFedLiquidity(
       prunedSnapshots: pruneResult.rowCount ?? 0,
       regime: snapshot.regime,
     };
-  } finally {
-    await client.end();
-  }
-}
+  },
+});
 
 export default refreshFedLiquidity;
