@@ -1,3 +1,4 @@
+// Shared entry point exporting all tool functions and types
 export { getQuotes, type YahooQuote } from './yahoo-finance.js'
 export { getSpotPrices, type CoinbaseSpotPrice } from './coinbase.js'
 export { getCommodityQuotes, type CommodityQuote } from './cnbc.js'

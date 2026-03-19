@@ -1,3 +1,4 @@
+// Fetches and writes the latest Fed liquidity snapshot to the database
 import pg from 'pg';
 import { getCommodityQuotes } from './cnbc.js';
 import { getQuotes } from './yahoo-finance.js';

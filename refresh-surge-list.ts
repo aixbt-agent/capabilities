@@ -1,3 +1,4 @@
+// Fetches the latest surge list from the aixbt API and writes it to the database
 import pg from 'pg';
 
 const BASE = 'https://api.aixbt.tech/v2';
