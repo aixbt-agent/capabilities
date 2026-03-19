@@ -1,4 +1,8 @@
-// Fetches trending coins and top coins by market cap from CoinGecko
+/**
+ * @tool-helper
+ * description: Fetch trending coins and market-cap-ranked coin data from CoinGecko.
+ * use_when: A shared tool needs lightweight market discovery or ranking inputs.
+ */
 
 async function fetchJSON(url: string): Promise<any> {
   const res = await fetch(url, {

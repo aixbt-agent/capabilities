@@ -1,4 +1,8 @@
-// Fetches real-time commodity futures quotes from CNBC
+/**
+ * @tool-helper
+ * description: Fetch real-time commodity futures quotes from CNBC.
+ * use_when: A shared tool needs normalized commodity price inputs without persisting them.
+ */
 
 export interface CommodityQuote {
   symbol: string;

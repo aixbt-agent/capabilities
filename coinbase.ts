@@ -1,4 +1,8 @@
-// Fetches spot prices and 24h change for crypto pairs from Coinbase
+/**
+ * @tool-helper
+ * description: Fetch crypto spot prices and 24h change from Coinbase endpoints.
+ * use_when: A shared tool needs current crypto market prices as in-memory inputs.
+ */
 
 export interface CoinbaseSpotPrice {
   pair: string;

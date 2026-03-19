@@ -1,4 +1,9 @@
-// Fetches the latest surge list from the aixbt API and writes it to the database
+/**
+ * @tool
+ * description: Fetch and upsert the latest normalized surge project rows.
+ * use_when: Refreshing shared surge data for cron or app consumers.
+ * persistence: tool-managed
+ */
 import pg from 'pg';
 
 const BASE = 'https://api.aixbt.tech/v2';

@@ -1,4 +1,9 @@
-// Fetches and writes the latest Fed liquidity snapshot to the database
+/**
+ * @tool
+ * description: Fetch market inputs and write a fed liquidity regime snapshot.
+ * use_when: Refreshing shared macro regime snapshots on a schedule.
+ * persistence: tool-managed
+ */
 import pg from 'pg';
 import { getCommodityQuotes } from './cnbc.js';
 import { getQuotes } from './yahoo-finance.js';

@@ -1,4 +1,8 @@
-// Fetches stock quotes from Stooq with Yahoo Finance crumb-auth fallback
+/**
+ * @tool-helper
+ * description: Fetch equity quotes via Stooq with Yahoo Finance fallback logic.
+ * use_when: A shared tool needs stock price data with a resilient public-source fallback.
+ */
 
 export interface YahooQuote {
   symbol: string;

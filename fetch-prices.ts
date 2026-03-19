@@ -1,7 +1,9 @@
-// fetch-prices.ts
-// Reusable price-fetching tool. Accepts a JSON config specifying what to fetch
-// from CNBC (commodities), Yahoo Finance (stocks), and Coinbase (crypto).
-// Usage: tsx tools/fetch-prices.ts '{"stocks":["NVDA","AMD"],"crypto":["BTC-USD"]}'
+/**
+ * @tool
+ * description: Fetch spot and market prices across the shared quote providers.
+ * use_when: Reading live prices inside shared tool logic without persisting rows.
+ * persistence: none
+ */
 
 import { getCommodityQuotes } from './cnbc.js'
 import { getQuotes } from './yahoo-finance.js'
