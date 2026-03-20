@@ -1,10 +1,9 @@
 /**
  * @tool
  * description: Fetch and upsert the latest normalized surge project rows.
- * use_when: Refreshing shared surge data for cron or app consumers.
- * persistence: tool-managed
  */
 import { createToolManagedRunner, type ToolStorage } from '../shared/tool-managed.js';
+import { withToolMeta, type ToolMeta } from '../shared/contract.js';
 
 const BASE = 'https://api.aixbt.tech/v2';
 const API_KEY = process.env.AIXBT_API_KEY || '';
@@ -139,7 +138,15 @@ export interface RefreshSurgeListResult {
   projectsUpserted: number;
 }
 
-export const toolStorage: ToolStorage = {
+const toolMeta: ToolMeta = {
+  runtime: 'both',
+  roles: ['admin'],
+  inputSchema: {
+    limit: 'optional positive integer limit for projects to fetch',
+  },
+};
+
+const toolStorage: ToolStorage = {
   schema: SCHEMA,
   bootstrapSql: [
     `CREATE TABLE IF NOT EXISTS ${SCHEMA}.surge_list (
@@ -220,4 +227,4 @@ export const refreshSurgeList = createToolManagedRunner<RefreshSurgeListParams, 
   },
 });
 
-export default refreshSurgeList;
+export default withToolMeta(refreshSurgeList, toolMeta);

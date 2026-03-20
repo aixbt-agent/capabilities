@@ -1,12 +1,11 @@
 /**
  * @tool
  * description: Fetch market inputs and write a fed liquidity regime snapshot.
- * use_when: Refreshing shared macro regime snapshots on a schedule.
- * persistence: tool-managed
  */
 import { getCommodityQuotes } from '../providers/cnbc.js';
 import { getQuotes } from '../providers/yahoo-finance.js';
 import { createToolManagedRunner, type ToolStorage } from '../shared/tool-managed.js';
+import { withToolMeta, type ToolMeta } from '../shared/contract.js';
 
 const SCHEMA = 'sk_fed_liquidity';
 const UA =
@@ -61,6 +60,11 @@ export interface FedLiquiditySnapshotRow {
   gold: number | null;
   regime: 'risk-on' | 'risk-off' | 'neutral';
 }
+
+const toolMeta: ToolMeta = {
+  runtime: 'both',
+  roles: ['admin'],
+};
 
 function findRate(data: FedLiquidityMarketData, symbol: string): MarketRate | undefined {
   return data.rates.find((entry) => entry.symbol === symbol);
@@ -231,7 +235,7 @@ export interface RefreshFedLiquidityResult {
   regime: string;
 }
 
-export const toolStorage: ToolStorage = {
+const toolStorage: ToolStorage = {
   schema: SCHEMA,
   bootstrapSql: [
     `CREATE TABLE IF NOT EXISTS ${SCHEMA}.snapshots (
@@ -303,4 +307,4 @@ export const refreshFedLiquidity = createToolManagedRunner<RefreshFedLiquidityPa
   },
 });
 
-export default refreshFedLiquidity;
+export default withToolMeta(refreshFedLiquidity, toolMeta);
