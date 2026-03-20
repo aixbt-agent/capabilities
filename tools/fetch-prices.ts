@@ -11,8 +11,8 @@ import { getSpotPrices } from '../providers/coinbase.js'
 
 interface PriceConfig {
   commodities?: Record<string, string>  // { gold: '@GC.1', ... } -> cnbc provider
-  stocks?: string[]                      // ['NVDA', 'AMD', ...] -> yahoo provider
-  crypto?: string[]                      // ['BTC-USD', ...] -> coinbase provider
+  stocks?: string | string[]             // ['NVDA', 'AMD', ...] -> yahoo provider
+  crypto?: string | string[]             // ['BTC-USD', ...] -> coinbase provider
 }
 
 interface PriceResult {
@@ -29,6 +29,8 @@ interface PriceResult {
 export default async function fetchPrices(config: PriceConfig): Promise<Record<string, PriceResult>> {
   const prices: Record<string, PriceResult> = {}
   const tasks: Promise<void>[] = []
+  const stocks = Array.isArray(config.stocks) ? config.stocks : (config.stocks ? [config.stocks] : [])
+  const crypto = Array.isArray(config.crypto) ? config.crypto : (config.crypto ? [config.crypto] : [])
 
   if (config.commodities && Object.keys(config.commodities).length > 0) {
     tasks.push(
@@ -44,9 +46,9 @@ export default async function fetchPrices(config: PriceConfig): Promise<Record<s
     )
   }
 
-  if (config.stocks && config.stocks.length > 0) {
+  if (stocks.length > 0) {
     tasks.push(
-      getQuotes(config.stocks).then(quotes => {
+      getQuotes(stocks).then(quotes => {
         for (const q of quotes) {
           prices[q.symbol] = {
             symbol: q.symbol,
@@ -63,9 +65,9 @@ export default async function fetchPrices(config: PriceConfig): Promise<Record<s
     )
   }
 
-  if (config.crypto && config.crypto.length > 0) {
+  if (crypto.length > 0) {
     tasks.push(
-      getSpotPrices(config.crypto).then(quotes => {
+      getSpotPrices(crypto).then(quotes => {
         for (const q of quotes) {
           prices[q.symbol] = {
             symbol: q.symbol,
