@@ -5,6 +5,12 @@ export { getCommodityQuotes, type CommodityQuote } from './providers/cnbc.js'
 export { getTrending, getTopCoins, type MarketCoin } from './providers/coingecko.js'
 export { default as fetchPrices } from './tools/fetch-prices.js'
 export {
+  default as tavilySearch,
+  type TavilySearchParams,
+  type TavilySearchResult,
+  type TavilySearchSource,
+} from './tools/tavily-search.js'
+export {
   default as refreshFedLiquidity,
   buildFedLiquiditySnapshotRow,
   classifyFedLiquidityRegime,
