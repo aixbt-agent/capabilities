@@ -124,7 +124,7 @@ export function toSurgeListRow(project: SurgeProject) {
 }
 
 export async function fetchSurgingProjects(limit = 10, fetchImpl: typeof fetch = fetch): Promise<SurgeProject[]> {
-  const body = await aixbtFetch(`/projects?limit=${limit}&sortBy=momentumScore&excludeStables=true`, fetchImpl);
+  const body = await aixbtFetch(`/projects?limit=${limit}&sortBy=momentumScore&excludeStables=true&hasToken=true`, fetchImpl);
   const rows = Array.isArray(body.data) ? body.data : [];
   return rows.map(normalizeSurgeProject).filter((project) => project.id && project.name);
 }
