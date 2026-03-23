@@ -5,7 +5,7 @@
 import { createToolManagedRunner, type ToolStorage } from '../shared/tool-managed.js';
 import { withToolMeta, type ToolMeta } from '../shared/contract.js';
 
-const BASE = 'https://api.aixbt.tech/v3';
+const BASE = 'https://api.aixbt.tech/v2';
 const API_KEY = process.env.AIXBT_API_KEY || '';
 const SCHEMA = 'sk_aixbt_surge';
 
